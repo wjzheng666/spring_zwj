@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot 父工程（核心：自动管理所有依赖版本） -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.3</version> <!-- 稳定版，兼容大部分场景 -->
+        <relativePath/>
+    </parent>
+
+    <!-- 项目基本信息 -->
+    <groupId>top.mqxu</groupId> <!-- 和你代码的包名保持一致 -->
+    <artifactId>hello-sample</artifactId>
+    <version>1.0.0</version>
+    <name>hello-sample</name>
+    <description>Week01 SpringBoot Demo</description>
+
+    <!-- 编码和JDK版本配置 -->
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source> <!-- 适配主流JDK版本 -->
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- 核心依赖 -->
+    <dependencies>
+        <!-- Spring Web 依赖（实现HTTP接口、RESTful API） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- 测试依赖（单元测试、集成测试） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 构建配置（打包、运行插件） -->
+    <build>
+        <plugins>
+            <!-- Spring Boot 打包插件（可打成可执行JAR包） -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.2.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
