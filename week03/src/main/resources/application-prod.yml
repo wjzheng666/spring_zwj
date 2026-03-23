@@ -1,0 +1,34 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: springboot-week03 生产环境
+
+app:
+  app-name: 企业后台管理系统
+  version: 3.0.0
+  description: 基于 Spring Boot 3.5.11 构建
+  published: false
+  author:
+    name: wjz
+    email: 2165290792@qq.com
+  features:
+    - "基于 Spring Boot 3.5.11 构建"
+    - "集成 Spring Security"
+    - "集成 Spring Data Redis"
+
+aliyun :
+  sms :
+    enabled: true
+    endpoint: dypnsapi.aliyuncs.com
+    region-id: cn-hangzhou
+#    accessKeyId: LTAI5tSpQFf5TjL57LDax8De
+#    accessKeySecret: rcEe35gcfuu2NdHclNr5w0uccMAzQo
+    signName: "速通互联验证码"
+    templateCode: "100001"
+    scheme-name:
+    template-param: "{\"code\":\"##code##\",\"min\":\"5\"}"
+    return-verify-code: true

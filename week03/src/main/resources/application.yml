@@ -1,0 +1,24 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    active: prod
+
+app:
+  #appName: "我的测试应用"  # ✅ 有值，@NotBlank 校验通过
+  version: "1.0.0"
+  description: "这是一个测试配置校验的应用"
+  published: true
+  # 嵌套的作者信息（对应 AppConfig.Author 内部类）
+  author:
+    name: "测试开发者"
+    website: "https://test.example.com"
+    email: "test@example.com"
+  # 列表类型配置（对应 List<String> features）
+  features:
+    - "配置属性校验"
+    - "Spring Boot 基础配置"
+    - "自定义注解提示"
