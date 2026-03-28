@@ -25,8 +25,8 @@ aliyun :
     enabled: true
     endpoint: dypnsapi.aliyuncs.com
     region-id: cn-hangzhou
-#    accessKeyId: LTAI5tSpQFf5TjL57LDax8De
-#    accessKeySecret: rcEe35gcfuu2NdHclNr5w0uccMAzQo
+#    accessKeyId: 
+#    accessKeySecret: 
     signName: "速通互联验证码"
     templateCode: "100001"
     scheme-name:

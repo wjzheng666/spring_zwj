@@ -1,0 +1,14 @@
+team:
+    leader:"牛壮"
+    age:32
+    email:2165290792@qq.com
+    phone:1391396481
+    createTime:"2026-3-26"
+
+spring:
+    application:
+        name: springboot-week04
+    servlet:
+        multipart:
+            max-file-size: 10MB    # 单文件最大10MB
+            max-request-size: 100MB # 单次请求最大100MB
