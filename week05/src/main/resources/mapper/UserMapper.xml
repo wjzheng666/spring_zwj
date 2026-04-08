@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.week05.mapper.UserMapper">
+
+    <!-- 查询所有：对应 selectList -->
+    <select id="selectList" resultType="com.example.week05.entity.User">
+        select * from t_user
+    </select>
+
+    <!-- 根据ID查询：对应 selectById -->
+    <select id="selectById" resultType="com.example.week05.entity.User" parameterType="long">
+        select * from t_user where id = #{id}
+    </select>
+
+    <!-- 新增用户：对应 insert -->
+    <insert id="insert" parameterType="com.example.week05.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user(username,password,age,email)
+        VALUES(#{username},#{password},#{age},#{email})
+    </insert>
+
+    <!-- 修改用户：对应 updateById -->
+    <update id="updateById" parameterType="com.example.week05.entity.User">
+        update t_user
+        set username=#{username},
+            password=#{password},
+            age=#{age},
+            email=#{email}
+        where id=#{id}
+    </update>
+
+    <!-- 删除用户：对应 deleteById -->
+    <delete id="deleteById" parameterType="long">
+        delete from t_user where id=#{id}
+    </delete>
+
+    <!-- 条件查询 -->
+    <select id="selectByCondition" resultType="com.example.week05.entity.User" parameterType="com.example.week05.entity.User">
+        select * from t_user
+        <where>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,11 @@
+INSERT INTO `user` (`username`, `password`, `age`, `email`, `create_time`) VALUES
+                                                                               ('张三', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 25, 'zhangsan@example.com', '2024-01-15 10:30:00'),
+                                                                               ('李红', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 32, 'lihong@example.com', '2024-02-20 14:15:00'),
+                                                                               ('王强', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 28, 'wangqiang@example.com', '2024-03-10 09:45:00'),
+                                                                               ('赵芳', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 40, 'zhaofang@example.com', '2024-04-05 16:20:00'),
+                                                                               ('刘伟', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 22, 'liuwei@example.com', '2024-05-12 11:00:00'),
+                                                                               ('陈静', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 35, 'chenjing@example.com', '2024-06-18 13:30:00'),
+                                                                               ('杨帆', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 27, 'yangfan@example.com', '2024-07-22 15:45:00'),
+                                                                               ('孙磊', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 38, 'sunlei@example.com', '2024-08-30 10:15:00'),
+                                                                               ('周敏', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 29, 'zhoumin@example.com', '2024-09-15 12:00:00'),
+                                                                               ('吴涛', '$2a$10$Z82d1XU4fKz89rKx4fKz89rKx4fKz89rKx4fKz89rKx4fKz89', 42, 'wutao@example.com', '2024-10-20 08:30:00');
