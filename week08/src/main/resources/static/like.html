@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章点赞系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        /* 文章卡片样式 */
+        .video-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 5px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+        }
+
+        .user-input {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .user-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .user-input input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .user-input input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-card::before {
+            content: '🎬';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .video-id {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .like-button {
+            background: white;
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .like-button:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .like-button.liked {
+            background: #ff6b6b;
+            color: white;
+            border-color: #ff6b6b;
+        }
+
+        .like-button.liked:hover {
+            background: #ff5252;
+        }
+
+        .like-count {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .like-count span {
+            font-weight: 700;
+            color: #ff6b6b;
+            font-size: 1.3em;
+        }
+
+        /* 排行榜样式 */
+        .rank-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .rank-list {
+            list-style: none;
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .rank-item:hover {
+            transform: translateX(5px);
+            border-left-color: #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+
+        .rank-item:nth-child(1) .rank-number {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .rank-item:nth-child(2) .rank-number {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .rank-item:nth-child(3) .rank-number {
+            background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .rank-item:nth-child(n+4) .rank-number {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .rank-info {
+            flex: 1;
+        }
+
+        .rank-video-id {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .rank-likes {
+            color: #ff6b6b;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* 加载动画 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 提示消息 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f44336;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 文章点赞系统</h1>
+            <p>基于 Redis 的高性能点赞功能演示</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 文章列表区域 -->
+            <div class="video-section">
+                <h2 class="section-title">文章列表</h2>
+                
+                <div class="user-input">
+                    <label for="userId">用户ID（用于模拟不同用户点赞）：</label>
+                    <input type="text" id="userId" placeholder="请输入用户ID，例如：user001" value="user001">
+                </div>
+
+                <div class="video-grid" id="videoGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>加载中...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 排行榜区域 -->
+<!--            <div class="rank-section">-->
+<!--                <h2 class="section-title">🏆 热门排行</h2>-->
+<!--                <ul class="rank-list" id="rankList">-->
+<!--                    <div class="loading">-->
+<!--                        <div class="spinner"></div>-->
+<!--                        <p>加载中...</p>-->
+<!--                    </div>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_BASE = '/api/like';
+        let videos = [];
+        
+        // 初始化示例文章
+        function initVideos() {
+            videos = [
+                { id: 'video001', title: '精彩文章 1' },
+                { id: 'video002', title: '精彩文章 2' },
+                { id: 'video003', title: '精彩文章 3' },
+                { id: 'video004', title: '精彩文章 4' },
+                { id: 'video005', title: '精彩文章 5' },
+                { id: 'video006', title: '精彩文章 6' }
+            ];
+        }
+
+        // 获取用户ID
+        function getUserId() {
+            return document.getElementById('userId').value || 'user001';
+        }
+
+        // 显示提示消息
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 渲染文章卡片
+        async function renderVideos() {
+            const videoGrid = document.getElementById('videoGrid');
+            videoGrid.innerHTML = '<div class="loading"><div class="spinner"></div><p>加载中...</p></div>';
+
+            try {
+                const userId = getUserId();
+                const cards = await Promise.all(videos.map(async (video) => {
+                    // 获取点赞数
+                    const countResponse = await fetch(`${API_BASE}/count?articleId=${video.id}`);
+                    const countData = await countResponse.json();
+                    const likeCount = countData.data || 0;
+
+                    // 检查是否已点赞
+                    const checkResponse = await fetch(`${API_BASE}/check?articleId=${video.id}&userId=${userId}`);
+                    const checkData = await checkResponse.json();
+                    const isLiked = checkData.data || false;
+
+                    return `
+                        <div class="video-card" data-video-id="${video.id}">
+                            <div class="video-id">${video.title}</div>
+                            <button class="like-button ${isLiked ? 'liked' : ''}" onclick="toggleLike('${video.id}')">
+                                <span>${isLiked ? '❤️' : '🤍'}</span>
+                                <span>${isLiked ? '已点赞' : '点赞'}</span>
+                            </button>
+                            <div class="like-count">
+                                <span id="count-${video.id}">${likeCount}</span> 个赞
+                            </div>
+                        </div>
+                    `;
+                }));
+
+                videoGrid.innerHTML = cards.join('');
+            } catch (error) {
+                console.error('渲染文章失败:', error);
+                videoGrid.innerHTML = '<p style="text-align: center; color: #999;">加载失败，请刷新重试</p>';
+            }
+        }
+
+        // 渲染排行榜
+        async function renderRanking() {
+            const rankList = document.getElementById('rankList');
+            rankList.innerHTML = '<div class="loading"><div class="spinner"></div><p>加载中...</p></div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/rank?topN=10`);
+                const data = await response.json();
+                const ranks = data.data || [];
+
+                if (ranks.length === 0) {
+                    rankList.innerHTML = '<li style="text-align: center; color: #999; padding: 20px;">暂无数据</li>';
+                    return;
+                }
+
+                rankList.innerHTML = ranks.map((item, index) => `
+                    <li class="rank-item">
+                        <div class="rank-number">${index + 1}</div>
+                        <div class="rank-info">
+                            <div class="rank-video-id">视频 ${item.videoId}</div>
+                            <div class="rank-likes">❤️ ${item.likeCount} 赞</div>
+                        </div>
+                    </li>
+                `).join('');
+            } catch (error) {
+                console.error('获取排行榜失败:', error);
+                rankList.innerHTML = '<li style="text-align: center; color: #999;">加载失败</li>';
+            }
+        }
+
+        // 切换点赞状态
+        async function toggleLike(videoId) {
+            const userId = getUserId();
+            
+            if (!userId) {
+                showToast('请先输入用户ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/toggle?articleId=${videoId}&userId=${userId}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                if (data.code === 0) {
+                    showToast(data.message || '操作成功');
+                    
+                    // 重新渲染视频和排行榜
+                    await Promise.all([renderVideos(), renderRanking()]);
+                } else {
+                    showToast(data.message || '操作失败', 'error');
+                }
+            } catch (error) {
+                console.error('点赞失败:', error);
+                showToast('网络错误', 'error');
+            }
+        }
+
+        // 监听用户ID变化
+        document.getElementById('userId').addEventListener('change', () => {
+            renderVideos();
+        });
+
+        // 定时刷新排行榜（每10秒）
+        setInterval(renderRanking, 10000);
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initVideos();
+            renderVideos();
+            renderRanking();
+        });
+    </script>
+</body>
+</html>
